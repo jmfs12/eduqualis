@@ -53,18 +53,19 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-between items-center">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-eduBlue-600">EduQualis</span>
-            </Link>
-            <div className="ml-10 flex items-center space-x-6">
+        <div className="hidden md:flex justify-between items-center px-0 py-2">
+          {/* ESQUERDA */}
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-xl font-bold text-eduBlue-600">EduQualis</Link>
+            <div className="flex items-center">
               <Link to="/" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Feed</Link>
               <Link to="/tracks" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Trilhas</Link>
               <Link to="/search" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Buscar</Link>
+              <Link to="/about" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Sobre</Link>
             </div>
           </div>
-          
+
+          {/* DIREITA */}
           <div className="flex items-center gap-4">
             {user && (
               <button 
@@ -80,6 +81,7 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
+
       </div>
     </nav>
   );

@@ -1,22 +1,44 @@
-
 import { useState } from 'react';
 import { toast } from "sonner";
 import { auth, googleProvider } from '../lib/firebase';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from 'firebase/auth';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    
     try {
       await signInWithPopup(auth, googleProvider);
-      toast.success("Login realizado com sucesso!");
-      // The user state will be handled at the parent component level
+      toast.success("Login com Google realizado com sucesso!");
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      toast.error("Falha ao realizar login. Tente novamente.");
+      console.error("Erro ao fazer login com Google:", error);
+      toast.error("Falha ao realizar login com Google.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmailAuth = async () => {
+    setIsLoading(true);
+    try {
+      if (isRegistering) {
+        await createUserWithEmailAndPassword(auth, email, password);
+        toast.success("Conta criada com sucesso!");
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        toast.success("Login realizado com sucesso!");
+      }
+    } catch (error: any) {
+      console.error("Erro:", error);
+      toast.error(error.message || "Ocorreu um erro.");
     } finally {
       setIsLoading(false);
     }
@@ -24,14 +46,46 @@ const Login = () => {
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-md max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-eduBlue-600 mb-2">Acesse a EduQualis</h2>
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-eduBlue-600 mb-2">
+          {isRegistering ? "Crie sua conta" : "Acesse a EduQualis"}
+        </h2>
         <p className="text-gray-600">
-          Entre para acessar conteúdo educacional personalizado
+          {isRegistering
+            ? "Cadastre-se para começar a usar a plataforma"
+            : "Entre para acessar conteúdo educacional personalizado"}
         </p>
       </div>
 
+      {/* Email/Password Form */}
       <div className="space-y-4">
+        <input
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue-500"
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue-500"
+        />
+        <button
+          onClick={handleEmailAuth}
+          disabled={isLoading}
+          className="w-full bg-eduBlue-500 text-white py-3 rounded-lg font-medium hover:bg-eduBlue-600 transition-colors"
+        >
+          {isLoading
+            ? isRegistering ? "Registrando..." : "Entrando..."
+            : isRegistering ? "Criar Conta" : "Entrar"}
+        </button>
+      </div>
+
+      {/* Google Button */}
+      <div className="mt-4">
         <button
           onClick={handleGoogleLogin}
           disabled={isLoading}
@@ -55,20 +109,34 @@ const Login = () => {
               fill="#EA4335"
             />
           </svg>
-          {isLoading ? "Entrando..." : "Continuar com Google"}
+          {isLoading ? "Carregando..." : "Continuar com Google"}
         </button>
       </div>
 
+      {/* Alternar entre Login e Registro */}
       <div className="mt-6 text-center">
-        <p className="text-gray-500 text-sm">
-          Ao entrar, você aceita nossos{" "}
+        <p className="text-sm text-gray-600">
+          {isRegistering ? "Já tem uma conta?" : "Ainda não tem uma conta?"}{" "}
+          <button
+            onClick={() => setIsRegistering(!isRegistering)}
+            className="text-eduBlue-600 hover:underline font-medium"
+          >
+            {isRegistering ? "Faça login" : "Crie uma conta"}
+          </button>
+        </p>
+      </div>
+
+      {/* Termos */}
+      <div className="mt-4 text-center">
+        <p className="text-xs text-gray-500">
+          Ao continuar, você aceita nossos{" "}
           <a href="#" className="text-eduBlue-600 hover:underline">
             Termos de Serviço
           </a>{" "}
           e{" "}
           <a href="#" className="text-eduBlue-600 hover:underline">
             Política de Privacidade
-          </a>
+          </a>.
         </p>
       </div>
     </div>
