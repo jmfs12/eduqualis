@@ -3,6 +3,7 @@ import { BookOpen, CheckCircle, Clock, Award } from 'lucide-react';
 import { auth } from '../lib/firebase';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 // Mock user data
@@ -195,10 +196,11 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-
-          <button className="button-secondary w-full mt-6">
-            Explorar Mais Trilhas
-          </button>
+          <Link to="/tracks">
+            <button className="button-secondary w-full mt-6">
+              Explorar Mais Trilhas
+            </button>
+          </Link>
         </div>
       </div>
     </div>

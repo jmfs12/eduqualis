@@ -42,10 +42,6 @@ const Navbar = () => {
             <BookOpen size={24} />
             <span className="text-xs mt-1">Trilhas</span>
           </Link>
-          <Link to="/search" className="flex flex-col items-center p-2 text-gray-500 hover:text-eduBlue-600">
-            <Search size={24} />
-            <span className="text-xs mt-1">Buscar</span>
-          </Link>
           <Link to="/dashboard" className="flex flex-col items-center p-2 text-gray-500 hover:text-eduBlue-600">
             <User size={24} />
             <span className="text-xs mt-1">Perfil</span>
@@ -60,7 +56,6 @@ const Navbar = () => {
             <div className="flex items-center">
               <Link to="/" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Feed</Link>
               <Link to="/tracks" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Trilhas</Link>
-              <Link to="/search" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Buscar</Link>
               <Link to="/about" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Sobre</Link>
             </div>
           </div>
