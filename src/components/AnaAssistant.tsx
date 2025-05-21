@@ -60,7 +60,7 @@ const AnaAssistant = () => {
       <button
         onClick={toggleChat}
         className={`flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-300 ${
-          isChatOpen ? 'bg-white text-eduBlue-500 rotate-90' : 'bg-eduBlue-500 text-white animate-float'
+          isChatOpen ? 'bg-white text-eduBlue-500 rotate-90' : 'bg-eduBlue-500 text-white'
         }`}
       >
         {isChatOpen ? <X size={24} /> : <MessageSquare size={24} />}
