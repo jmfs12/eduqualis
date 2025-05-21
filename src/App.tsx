@@ -9,6 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./lib/firebase";
 import Index from "./pages/Index";
 import DashboardPage from "./pages/DashboardPage";
+import TracksPage from "./pages/TracksPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/tracks" 
+            element={
+              <ProtectedRoute>
+                <TracksPage />
               </ProtectedRoute>
             } 
           />
