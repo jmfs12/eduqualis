@@ -1,5 +1,7 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 import VideoFeed from '../components/VideoFeed';
 import AnaAssistant from '../components/AnaAssistant';
 import Navbar from '../components/Navbar';
@@ -7,6 +9,30 @@ import Login from '../components/Login';
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setIsLoading(false);
+    });
+
+    // Cleanup subscription
+    return () => unsubscribe();
+  }, []);
+
+  // Demo mode for easy testing
+  const enterDemoMode = () => {
+    setIsLoggedIn(true);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-eduBlue-600 text-xl">Carregando...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -71,7 +97,7 @@ const Index = () => {
           </div>
           
           <button
-            onClick={() => setIsLoggedIn(true)}
+            onClick={enterDemoMode}
             className="mt-10 button-primary text-lg py-3 px-8"
           >
             Demonstração (Pular Login)

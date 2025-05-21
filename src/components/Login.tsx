@@ -1,19 +1,25 @@
 
 import { useState } from 'react';
 import { toast } from "sonner";
+import { auth, googleProvider } from '../lib/firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
     
-    // Simulating OAuth login
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await signInWithPopup(auth, googleProvider);
       toast.success("Login realizado com sucesso!");
-      // Redirect or update user state would happen here in a real implementation
-    }, 1500);
+      // The user state will be handled at the parent component level
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      toast.error("Falha ao realizar login. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
