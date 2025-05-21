@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { MessageSquare, X, Send } from 'lucide-react';
 
@@ -13,42 +12,63 @@ const AnaAssistant = () => {
     }
   ]);
   const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
   };
 
-  const handleSendMessage = () => {
-    if (newMessage.trim() === '') return;
-    
-    setMessages([
-      ...messages,
-      {
-        id: messages.length + 1,
-        sender: 'user',
-        content: newMessage,
-        timestamp: 'Agora mesmo'
+  const callOpenAI = async (prompt: string): Promise<string> => {
+    try {
+      const res = await fetch('/api/openai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Erro na API OpenAI');
       }
-    ]);
-    
+
+      const data = await res.json();
+      return data.response; // aqui espero que sua API retorne { response: string }
+    } catch (error) {
+      console.error(error);
+      return 'Desculpe, não consegui processar sua solicitação.';
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === '') return;
+
+    // Adiciona a mensagem do usuário
+    const userMessage = {
+      id: messages.length + 1,
+      sender: 'user',
+      content: newMessage,
+      timestamp: 'Agora mesmo'
+    };
+    setMessages([...messages, userMessage]);
     setNewMessage('');
-    
-    // Simulate Ana's response after a short delay
-    setTimeout(() => {
-      setMessages(prevMessages => [
-        ...prevMessages,
-        {
-          id: prevMessages.length + 1,
-          sender: 'ana',
-          content: 'Estou processando sua pergunta. Em breve terei uma resposta para você!',
-          timestamp: 'Agora mesmo'
-        }
-      ]);
-    }, 1000);
+    setIsLoading(true);
+
+    // Chama a OpenAI para resposta
+    const aiResponse = await callOpenAI(newMessage);
+
+    // Adiciona a resposta da Ana
+    const anaMessage = {
+      id: userMessage.id + 1,
+      sender: 'ana',
+      content: aiResponse,
+      timestamp: 'Agora mesmo'
+    };
+
+    setMessages(prev => [...prev, anaMessage]);
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !isLoading) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -101,6 +121,13 @@ const AnaAssistant = () => {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="mb-4 flex justify-start">
+                <div className="max-w-[80%] rounded-lg p-3 bg-white border border-gray-200 italic text-gray-500">
+                  Ana está digitando...
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
@@ -112,11 +139,13 @@ const AnaAssistant = () => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={handleKeyPress}
+                disabled={isLoading}
                 className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue-500"
               />
               <button
                 onClick={handleSendMessage}
-                className="bg-eduBlue-500 text-white h-10 w-10 rounded-lg flex items-center justify-center"
+                disabled={isLoading}
+                className="bg-eduBlue-500 text-white h-10 w-10 rounded-lg flex items-center justify-center disabled:opacity-50"
               >
                 <Send size={18} />
               </button>

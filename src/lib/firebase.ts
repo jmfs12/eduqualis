@@ -2,13 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC0ProIKcrRLR0fwqLXROswreJhLdZKYbY",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "eduqualis-20517.firebaseapp.com",
   projectId: "eduqualis-20517",
   storageBucket: "eduqualis-20517.appspot.com",
-  messagingSenderId: "123456789012",
   appId: "1:1063081201769:web:aa1a5197c6fcc6966ad2f8"
 };
 
