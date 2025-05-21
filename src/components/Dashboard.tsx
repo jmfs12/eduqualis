@@ -1,32 +1,60 @@
 
 import { BookOpen, CheckCircle, Clock, Award } from 'lucide-react';
+import { auth } from '../lib/firebase';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 
 // Mock user data
-const userData = {
-  name: "Carlos",
-  completedVideos: 24,
-  completedTracks: 3,
-  minutesWatched: 142,
-  points: 450,
-  level: "Intermediário",
-  currentStreak: 5,
-  badges: [
-    { id: 1, name: "Matemática Básica", completed: true },
-    { id: 2, name: "Física Introdutória", completed: false },
-    { id: 3, name: "História do Brasil", completed: true }
-  ],
-  recommendedTracks: [
-    { id: 1, title: "Álgebra Linear", videos: 12, level: "Intermediário" },
-    { id: 2, title: "História Mundial", videos: 15, level: "Iniciante" }
-  ],
-  recentVideos: [
-    { id: 1, title: "Equações de 2º Grau", subject: "Matemática", progress: 100 },
-    { id: 2, title: "Leis de Newton", subject: "Física", progress: 75 },
-    { id: 3, title: "República Velha", subject: "História", progress: 60 }
-  ]
-};
 
 const Dashboard = () => {
+  const [userData, setUserData] = useState({
+    name: "",
+    completedVideos: 24,
+    completedTracks: 3,
+    minutesWatched: 142,
+    points: 450,
+    level: "Intermediário",
+    currentStreak: 5,
+    badges: [
+      { id: 1, name: "Matemática Básica", completed: true },
+      { id: 2, name: "Física Introdutória", completed: false },
+      { id: 3, name: "História do Brasil", completed: true }
+    ],
+    recommendedTracks: [
+      { id: 1, title: "Álgebra Linear", videos: 12, level: "Intermediário" },
+      { id: 2, title: "História Mundial", videos: 15, level: "Iniciante" }
+    ],
+    recentVideos: [
+      { id: 1, title: "Equações de 2º Grau", subject: "Matemática", progress: 100 },
+      { id: 2, title: "Leis de Newton", subject: "Física", progress: 75 },
+      { id: 3, title: "República Velha", subject: "História", progress: 60 }
+    ]
+  });
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const id = auth.currentUser?.uid;
+      if (!id) return;
+
+      try {
+        const response = await axios.get(`http://localhost:8080/api/auth/${id}`);
+        const dados = response.data;
+
+        setUserData(prev => ({
+          ...prev,
+          name: dados.username,
+        }));
+
+        console.log('Dados recebidos:', dados);
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div className="max-w-4xl mx-auto px-4">
       <header className="mb-8 text-center md:text-left">

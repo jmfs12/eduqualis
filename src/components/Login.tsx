@@ -6,12 +6,29 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
 } from 'firebase/auth';
+import axios from 'axios';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const sendData = async()=>{
+    try{
+      const response = await axios.post('http://localhost:8080/api/auth/register', {
+        username: name,
+        email: auth.currentUser?.email,
+        firebaseUID: auth.currentUser?.uid,
+      });
+
+      console.log('Dados enviados com sucesso:', response.data);
+    } catch (error) {
+      console.error('Erro ao enviar dados:', error);
+    }
+  };
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
@@ -31,7 +48,9 @@ const Login = () => {
     try {
       if (isRegistering) {
         await createUserWithEmailAndPassword(auth, email, password);
+        await sendData();
         toast.success("Conta criada com sucesso!");
+        
       } else {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Login realizado com sucesso!");
@@ -73,6 +92,17 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue-500"
         />
+        {isRegistering && (
+          <>
+            <input
+              type="text"
+              placeholder="Nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue-500"
+            />
+          </>
+        )}
         <button
           onClick={handleEmailAuth}
           disabled={isLoading}
