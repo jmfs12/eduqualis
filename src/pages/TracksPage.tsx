@@ -14,6 +14,7 @@ const availableTracks = [
     description: "Fundamentos essenciais de matemática para reforçar seu conhecimento",
     level: "Iniciante",
     totalVideos: 12,
+    totalActivities: 1,
     icon: "book-open",
     category: "Exatas"
   },
@@ -23,6 +24,7 @@ const availableTracks = [
     description: "Física aplicada ao dia a dia com exemplos práticos",
     level: "Intermediário",
     totalVideos: 8,
+    totalActivities: 1,
     icon: "layers",
     category: "Exatas"
   },
@@ -32,6 +34,7 @@ const availableTracks = [
     description: "Gramática e interpretação de texto de forma simples",
     level: "Iniciante",
     totalVideos: 15,
+    totalActivities: 1,
     icon: "list-check",
     category: "Humanas"
   }
@@ -65,6 +68,7 @@ const TracksPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
+      <Navbar />
       <div className="pt-6 md:pt-24 max-w-6xl mx-auto px-4">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Trilhas de Aprendizado</h1>
         
@@ -107,7 +111,10 @@ const TracksPage = () => {
                 </div>
                 <p className="text-sm text-gray-600 mb-4">{track.description}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500">{track.totalVideos} vídeos</span>
+                  <div>
+                    <span className="text-xs text-gray-500 block">{track.totalVideos} vídeos</span>
+                    <span className="text-xs text-gray-500 block">{track.totalActivities} atividades</span>
+                  </div>
                   <button className="text-eduBlue-600 text-sm font-medium">Ver detalhes</button>
                 </div>
               </CardContent>
@@ -125,7 +132,6 @@ const TracksPage = () => {
       </div>
       
       <AnaAssistant />
-      <Navbar />
     </div>
   );
 };

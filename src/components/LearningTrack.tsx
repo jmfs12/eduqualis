@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-import { ChevronRight, BookOpen, CheckCircle, Play } from 'lucide-react';
+import { ChevronRight, BookOpen, CheckCircle, Play, BookOpen as BookIcon, ListCheck } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Mock data for learning tracks
 const tracks = [
@@ -39,6 +40,9 @@ const tracks = [
           { id: 1007, title: "Equações de Segundo Grau", completed: false, duration: "7:20" },
         ]
       }
+    ],
+    activities: [
+      { id: "1", title: "Equações do 2º Grau", questions: 2 }
     ]
   }
 ];
@@ -46,12 +50,17 @@ const tracks = [
 const LearningTrack = () => {
   const [expandedChapterId, setExpandedChapterId] = useState<number | null>(null);
   const track = tracks[0]; // Using the first track as an example
+  const navigate = useNavigate();
 
   const toggleChapter = (chapterId: number) => {
     setExpandedChapterId(expandedChapterId === chapterId ? null : chapterId);
   };
 
   const progressPercentage = Math.round((track.completedVideos / track.totalVideos) * 100);
+  
+  const goToActivities = () => {
+    navigate(`/activities?track=${track.id}`);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 max-w-2xl mx-auto">
@@ -80,7 +89,11 @@ const LearningTrack = () => {
       </div>
 
       {/* Chapters */}
-      <div className="space-y-3">
+      <div className="space-y-3 mb-6">
+        <h3 className="font-medium text-gray-700 flex items-center gap-2">
+          <BookIcon size={18} />
+          <span>Conteúdo da Trilha</span>
+        </h3>
         {track.chapters.map(chapter => (
           <div key={chapter.id} className="border rounded-lg overflow-hidden">
             <button 
@@ -128,8 +141,37 @@ const LearningTrack = () => {
         ))}
       </div>
 
+      {/* Activities Section */}
+      {track.activities && track.activities.length > 0 && (
+        <div className="mb-6 border-t pt-6">
+          <h3 className="font-medium text-gray-700 mb-4 flex items-center gap-2">
+            <ListCheck size={18} />
+            <span>Atividades Relacionadas</span>
+          </h3>
+          <div className="space-y-3">
+            {track.activities.map(activity => (
+              <div key={activity.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+                   onClick={goToActivities}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-eduBlue-100 p-2 rounded-lg">
+                      <ListCheck size={18} className="text-eduBlue-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{activity.title}</p>
+                      <p className="text-xs text-gray-500">{activity.questions} questões</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={18} className="text-gray-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-6 text-center">
-        <button className="button-primary">
+        <button className="bg-eduBlue-600 text-white px-4 py-2 rounded-md hover:bg-eduBlue-700 transition-colors">
           Continuar Aprendendo
         </button>
       </div>

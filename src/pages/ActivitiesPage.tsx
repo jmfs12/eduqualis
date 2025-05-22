@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import AnaAssistant from '../components/AnaAssistant';
 import QuizCard from '../components/QuizCard';
@@ -11,6 +11,7 @@ const mockQuizzes = [
     id: '1',
     subject: 'Matemática',
     title: 'Equações do 2º Grau',
+    trackId: 1,
     questions: [
       {
         id: 'q1',
@@ -38,6 +39,7 @@ const mockQuizzes = [
     id: '2',
     subject: 'Biologia',
     title: 'Fotossíntese',
+    trackId: 2,
     questions: [
       {
         id: 'q1',
@@ -65,6 +67,7 @@ const mockQuizzes = [
     id: '3',
     subject: 'História',
     title: 'Revolução Francesa',
+    trackId: 3,
     questions: [
       {
         id: 'q1',
@@ -95,6 +98,7 @@ const ActivitiesPage = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
+  const [trackFilter, setTrackFilter] = useState<number | null>(null);
 
   const handleSelectQuiz = (quizId: string) => {
     setSelectedQuiz(quizId);
@@ -109,10 +113,13 @@ const ActivitiesPage = () => {
     setAnsweredQuestions(prev => prev + 1);
   };
 
+  const filteredQuizzes = trackFilter 
+    ? mockQuizzes.filter(quiz => quiz.trackId === trackFilter)
+    : mockQuizzes;
+
   const currentQuiz = mockQuizzes.find(quiz => quiz.id === selectedQuiz);
 
-  // Listen for focus mode events
-  React.useEffect(() => {
+  useEffect(() => {
     const handleFocusModeChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ focusMode: boolean }>;
       setFocusMode(customEvent.detail.focusMode);
@@ -124,6 +131,15 @@ const ActivitiesPage = () => {
     };
   }, []);
 
+  // Get track filter from URL if available
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const track = params.get('track');
+    if (track) {
+      setTrackFilter(Number(track));
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {!focusMode && <Navbar />}
@@ -131,12 +147,24 @@ const ActivitiesPage = () => {
       <div className={`${focusMode ? 'pt-0' : 'pt-4 md:pt-20'} pb-20 px-4 md:px-6 max-w-5xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold text-eduBlue-600 mb-6">Atividades de Aprendizado</h1>
         
+        {trackFilter && (
+          <div className="mb-6">
+            <button 
+              onClick={() => setTrackFilter(null)}
+              className="text-eduBlue-600 flex items-center hover:underline"
+            >
+              ← Voltar para todas as atividades
+            </button>
+            <p className="text-gray-600">Mostrando atividades para a trilha selecionada</p>
+          </div>
+        )}
+        
         {!selectedQuiz ? (
           <div>
             <p className="text-gray-600 mb-6">Selecione uma atividade abaixo para testar seus conhecimentos:</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockQuizzes.map((quiz) => (
+              {filteredQuizzes.map((quiz) => (
                 <div 
                   key={quiz.id}
                   onClick={() => handleSelectQuiz(quiz.id)}
