@@ -12,6 +12,7 @@ const mockQuizzes = [
     subject: 'Matemática',
     title: 'Equações do 2º Grau',
     trackId: 1,
+    chapterId: 103, // Associate with Equations chapter
     questions: [
       {
         id: 'q1',
@@ -99,6 +100,7 @@ const ActivitiesPage = () => {
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
   const [trackFilter, setTrackFilter] = useState<number | null>(null);
+  const [chapterFilter, setChapterFilter] = useState<number | null>(null);
 
   const handleSelectQuiz = (quizId: string) => {
     setSelectedQuiz(quizId);
@@ -113,12 +115,20 @@ const ActivitiesPage = () => {
     setAnsweredQuestions(prev => prev + 1);
   };
 
-  const filteredQuizzes = trackFilter 
-    ? mockQuizzes.filter(quiz => quiz.trackId === trackFilter)
-    : mockQuizzes;
+  // Apply both track and chapter filters if available
+  const filteredQuizzes = mockQuizzes.filter(quiz => {
+    if (trackFilter && quiz.trackId !== trackFilter) {
+      return false;
+    }
+    if (chapterFilter && quiz.chapterId !== chapterFilter) {
+      return false;
+    }
+    return true;
+  });
 
   const currentQuiz = mockQuizzes.find(quiz => quiz.id === selectedQuiz);
 
+  // Handle focus mode changes (for the Ana Assistant)
   useEffect(() => {
     const handleFocusModeChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ focusMode: boolean }>;
@@ -131,12 +141,18 @@ const ActivitiesPage = () => {
     };
   }, []);
 
-  // Get track filter from URL if available
+  // Get track and chapter filters from URL if available
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const track = params.get('track');
+    const chapter = params.get('chapter');
+    
     if (track) {
       setTrackFilter(Number(track));
+    }
+    
+    if (chapter) {
+      setChapterFilter(Number(chapter));
     }
   }, []);
 
@@ -147,15 +163,22 @@ const ActivitiesPage = () => {
       <div className={`${focusMode ? 'pt-0' : 'pt-4 md:pt-20'} pb-20 px-4 md:px-6 max-w-5xl mx-auto`}>
         <h1 className="text-2xl md:text-3xl font-bold text-eduBlue-600 mb-6">Atividades de Aprendizado</h1>
         
-        {trackFilter && (
+        {(trackFilter || chapterFilter) && (
           <div className="mb-6">
             <button 
-              onClick={() => setTrackFilter(null)}
+              onClick={() => {
+                setTrackFilter(null);
+                setChapterFilter(null);
+              }}
               className="text-eduBlue-600 flex items-center hover:underline"
             >
               ← Voltar para todas as atividades
             </button>
-            <p className="text-gray-600">Mostrando atividades para a trilha selecionada</p>
+            <p className="text-gray-600">
+              {chapterFilter 
+                ? "Mostrando atividades para o capítulo selecionado" 
+                : "Mostrando atividades para a trilha selecionada"}
+            </p>
           </div>
         )}
         
@@ -188,6 +211,12 @@ const ActivitiesPage = () => {
                 </div>
               ))}
             </div>
+            
+            {filteredQuizzes.length === 0 && (
+              <div className="text-center p-10 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-gray-600">Nenhuma atividade encontrada para os filtros selecionados.</p>
+              </div>
+            )}
           </div>
         ) : (
           <div>

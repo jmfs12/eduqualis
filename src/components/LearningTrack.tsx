@@ -38,6 +38,9 @@ const tracks = [
         videos: [
           { id: 1006, title: "Equações de Primeiro Grau", completed: false, duration: "6:10" },
           { id: 1007, title: "Equações de Segundo Grau", completed: false, duration: "7:20" },
+        ],
+        activities: [
+          { id: "1", title: "Equações do 2º Grau", questions: 2 }
         ]
       }
     ],
@@ -58,8 +61,12 @@ const LearningTrack = () => {
 
   const progressPercentage = Math.round((track.completedVideos / track.totalVideos) * 100);
   
-  const goToActivities = () => {
-    navigate(`/activities?track=${track.id}`);
+  const goToActivities = (chapterId?: number) => {
+    if (chapterId) {
+      navigate(`/activities?track=${track.id}&chapter=${chapterId}`);
+    } else {
+      navigate(`/activities?track=${track.id}`);
+    }
   };
 
   return (
@@ -135,23 +142,49 @@ const LearningTrack = () => {
                     </div>
                   </div>
                 ))}
+
+                {/* Chapter-specific activities */}
+                {chapter.activities && chapter.activities.length > 0 && (
+                  <div className="mt-2 border-t border-gray-200 pt-2">
+                    {chapter.activities.map(activity => (
+                      <div 
+                        key={activity.id} 
+                        className="p-3 flex items-center justify-between hover:bg-gray-100 cursor-pointer"
+                        onClick={() => goToActivities(chapter.id)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-eduGreen-500 flex items-center justify-center">
+                            <ListCheck size={16} className="text-white" />
+                          </div>
+                          <span className="text-gray-800">Atividade: {activity.title}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-500">{activity.questions} questões</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* Activities Section */}
+      {/* General Activities Section */}
       {track.activities && track.activities.length > 0 && (
         <div className="mb-6 border-t pt-6">
           <h3 className="font-medium text-gray-700 mb-4 flex items-center gap-2">
             <ListCheck size={18} />
-            <span>Atividades Relacionadas</span>
+            <span>Atividades Gerais da Trilha</span>
           </h3>
           <div className="space-y-3">
             {track.activities.map(activity => (
-              <div key={activity.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                   onClick={goToActivities}>
+              <div 
+                key={activity.id} 
+                className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+                onClick={() => goToActivities()}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="bg-eduBlue-100 p-2 rounded-lg">
