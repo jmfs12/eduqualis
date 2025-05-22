@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from 'react';
-import { Heart, BookOpen, Share2, MessageSquare, Maximize, Minimize } from 'lucide-react';
+import { Heart, BookOpen, Share2, MessageSquare, EyeOff, Eye, Play, Pause } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   Tooltip,
@@ -35,12 +35,26 @@ const VideoCard = ({
 
   // Quando focusMode muda, disparamos um evento personalizado
   useEffect(() => {
-    // Cria e dispara um evento personalizado para informar outros componentes sobre o modo foco
+    const videoEl = videoRef.current;
+
+    // Dispara evento para outros componentes (como já estava fazendo)
     const event = new CustomEvent('focusModeChange', { 
       detail: { focusMode } 
     });
     document.dispatchEvent(event);
+
+    // Entra ou sai do fullscreen
+    if (focusMode && videoEl && videoEl.requestFullscreen) {
+      videoEl.requestFullscreen().catch((err) => {
+        console.error("Erro ao tentar entrar em tela cheia:", err);
+      });
+    } else if (!focusMode && document.fullscreenElement) {
+      document.exitFullscreen().catch((err) => {
+        console.error("Erro ao sair do modo tela cheia:", err);
+      });
+    }
   }, [focusMode]);
+
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -62,7 +76,8 @@ const VideoCard = ({
   };
 
   return (
-    <div className={`relative w-full h-full ${focusMode ? 'bg-black' : 'bg-black'} overflow-hidden`}>
+    <div className={`relative ${focusMode ? 'fixed inset-0 z-50 w-screen h-screen' : 'w-full h-full'} bg-black overflow-hidden`}>
+
       {/* Video */}
       <video
         ref={videoRef}
@@ -72,27 +87,26 @@ const VideoCard = ({
         loop
       />
 
-      {/* Botão interativo de play quando pausado */}
       {!isPlaying && (
         <button
           onClick={togglePlay}
           className="absolute inset-0 z-10 flex items-center justify-center bg-black/0 hover:bg-black/10 transition"
         >
-          <div className="w-16 h-16 rounded-full bg-eduBlue-500/80 flex items-center justify-center">
-            <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-white border-b-8 border-b-transparent ml-1"></div>
+          <div className="w-16 h-16 rounded-full bg-eduBlue-500/80 flex items-center justify-center text-white">
+            <Play size={32} />
           </div>
         </button>
       )}
-
-      {/* Se o vídeo estiver tocando, permitir pausar clicando em qualquer lugar */}
       {isPlaying && (
-        <button
-          onClick={togglePlay}
-          className="absolute inset-0 z-10 bg-transparent"
-        >
-          {/* Área clicável invisível */}
-        </button>
-      )}
+      <button 
+        onClick={togglePlay}
+        className="absolute inset-0 z-10 bg-transparent"
+      >
+        {/* Área clicável invisível */}
+      </button>
+     )}
+
+
 
       {/* Focus mode toggle button */}
       <TooltipProvider>
@@ -104,7 +118,7 @@ const VideoCard = ({
               size="icon" 
               className="absolute top-4 right-4 z-30 bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
             >
-              {focusMode ? <Minimize size={20} /> : <Maximize size={20} />}
+              {focusMode ? <Eye size={20} /> : <EyeOff size={20} />}
             </Button>
           </TooltipTrigger>
           <TooltipContent>
