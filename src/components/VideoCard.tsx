@@ -1,5 +1,13 @@
+
 import { useState, useRef } from 'react';
-import { Heart, BookOpen, Share2, MessageSquare } from 'lucide-react';
+import { Heart, BookOpen, Share2, MessageSquare, Maximize, Minimize } from 'lucide-react';
+import { Button } from './ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface VideoCardProps {
   videoUrl: string;
@@ -22,6 +30,7 @@ const VideoCard = ({
 }: VideoCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const togglePlay = () => {
@@ -38,9 +47,13 @@ const VideoCard = ({
   const toggleLike = () => {
     setLiked(!liked);
   };
+  
+  const toggleFocus = () => {
+    setFocusMode(!focusMode);
+  };
 
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden">
+    <div className={`relative w-full h-full ${focusMode ? 'bg-black' : 'bg-black'} overflow-hidden`}>
       {/* Video */}
       <video
         ref={videoRef}
@@ -48,7 +61,6 @@ const VideoCard = ({
         className="absolute inset-0 w-full h-full object-cover z-0"
         playsInline
         loop
-
       />
 
       {/* Botão interativo de play quando pausado */}
@@ -73,45 +85,68 @@ const VideoCard = ({
         </button>
       )}
 
+      {/* Focus mode toggle button */}
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button 
+              onClick={toggleFocus} 
+              variant="ghost" 
+              size="icon" 
+              className="absolute top-4 right-4 z-30 bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
+            >
+              {focusMode ? <Minimize size={20} /> : <Maximize size={20} />}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{focusMode ? 'Sair do modo foco' : 'Ativar modo foco'}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       {/* Informações do vídeo */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent z-20">
-        <div className="text-white">
-          <h3 className="text-lg font-semibold mb-1">{title}</h3>
-          <p className="text-sm opacity-90">{teacher} • {subject}</p>
-          <p className="text-xs opacity-70 mt-1">{duration}</p>
+      {!focusMode && (
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent z-20">
+          <div className="text-white">
+            <h3 className="text-lg font-semibold mb-1">{title}</h3>
+            <p className="text-sm opacity-90">{teacher} • {subject}</p>
+            <p className="text-xs opacity-70 mt-1">{duration}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Botões de interação do lado direito */}
-      <div className="absolute right-4 bottom-24 flex flex-col space-y-6 items-center z-20">
-        <button onClick={toggleLike} className="flex flex-col items-center">
-          <div className={`w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center ${liked ? 'text-red-500' : 'text-white'}`}>
-            <Heart fill={liked ? 'currentColor' : 'none'} size={24} />
-          </div>
-          <span className="text-white text-xs mt-1">{liked ? likes + 1 : likes}</span>
-        </button>
+      {!focusMode && (
+        <div className="absolute right-4 bottom-24 flex flex-col space-y-6 items-center z-20">
+          <button onClick={toggleLike} className="flex flex-col items-center">
+            <div className={`w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center ${liked ? 'text-red-500' : 'text-white'}`}>
+              <Heart fill={liked ? 'currentColor' : 'none'} size={24} />
+            </div>
+            <span className="text-white text-xs mt-1">{liked ? likes + 1 : likes}</span>
+          </button>
 
-        <button className="flex flex-col items-center">
-          <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
-            <MessageSquare size={24} />
-          </div>
-          <span className="text-white text-xs mt-1">{comments}</span>
-        </button>
+          <button className="flex flex-col items-center">
+            <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
+              <MessageSquare size={24} />
+            </div>
+            <span className="text-white text-xs mt-1">{comments}</span>
+          </button>
 
-        <button className="flex flex-col items-center">
-          <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
-            <Share2 size={24} />
-          </div>
-          <span className="text-white text-xs mt-1">Compartilhar</span>
-        </button>
+          <button className="flex flex-col items-center">
+            <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
+              <Share2 size={24} />
+            </div>
+            <span className="text-white text-xs mt-1">Compartilhar</span>
+          </button>
 
-        <button className="flex flex-col items-center">
-          <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
-            <BookOpen size={24} />
-          </div>
-          <span className="text-white text-xs mt-1">Trilha</span>
-        </button>
-      </div>
+          <button className="flex flex-col items-center">
+            <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
+              <BookOpen size={24} />
+            </div>
+            <span className="text-white text-xs mt-1">Trilha</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
