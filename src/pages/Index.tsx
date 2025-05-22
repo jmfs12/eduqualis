@@ -21,6 +21,21 @@ const Index = () => {
     return () => unsubscribe();
   }, []);
 
+  const [focusMode, setFocusMode] = useState(false);
+
+  useEffect(() => {
+    const handleFocusModeChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ focusMode: boolean }>;
+      setFocusMode(customEvent.detail.focusMode);
+    };
+
+    document.addEventListener('focusModeChange', handleFocusModeChange);
+    return () => {
+      document.removeEventListener('focusModeChange', handleFocusModeChange);
+    };
+  }, []);
+
+
   // Demo mode for easy testing
   const enterDemoMode = () => {
     setIsLoggedIn(true);
@@ -38,7 +53,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       {isLoggedIn ? (
         <>
-          <div className="pb-16 md:pt-16 md:pb-0">
+          <div className={`${focusMode ? '' : 'pb-16 md:pt-16 md:pb-0'}`}>
             <VideoFeed />
           </div>
           <AnaAssistant />

@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, User, Search, LogOut } from 'lucide-react';
+import { Home, BookOpen, User, LogOut } from 'lucide-react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { toast } from 'sonner';
@@ -17,17 +16,16 @@ const Navbar = () => {
       setUser(currentUser);
     });
 
-    // Escuta o evento personalizado de mudança do modo foco
-    const handleFocusModeChange = (event: CustomEvent) => {
-      setHidden(event.detail.focusMode);
+    const handleFocusModeChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ focusMode: boolean }>;
+      setHidden(customEvent.detail.focusMode);
     };
 
-    // Adiciona o listener para o evento
-    document.addEventListener('focusModeChange', handleFocusModeChange as EventListener);
+    document.addEventListener('focusModeChange', handleFocusModeChange);
 
     return () => {
       unsubscribe();
-      document.removeEventListener('focusModeChange', handleFocusModeChange as EventListener);
+      document.removeEventListener('focusModeChange', handleFocusModeChange);
     };
   }, []);
 
@@ -41,14 +39,12 @@ const Navbar = () => {
     }
   };
 
-  // Se está escondido, não renderiza nada
-  if (hidden) {
-    return null;
-  }
+  if (hidden) return null;
 
   return (
     <nav className="bg-white shadow-md py-2 fixed bottom-0 w-full md:top-0 md:bottom-auto z-50">
       <div className="w-full px-2 md:px-4">
+
         {/* Mobile Bottom Navigation */}
         <div className="flex justify-around items-center md:hidden">
           <Link to="/" className="flex flex-col items-center p-2 text-eduBlue-600">
