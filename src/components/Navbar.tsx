@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md py-2 fixed bottom-0 w-full md:top-0 md:bottom-auto z-50">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full px-2 md:px-4">
         {/* Mobile Bottom Navigation */}
         <div className="flex justify-around items-center md:hidden">
           <Link to="/" className="flex flex-col items-center p-2 text-eduBlue-600">
