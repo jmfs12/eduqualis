@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +9,7 @@ import { auth } from "./lib/firebase";
 import Index from "./pages/Index";
 import DashboardPage from "./pages/DashboardPage";
 import TracksPage from "./pages/TracksPage";
+import ActivitiesPage from "./pages/ActivitiesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +64,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <TracksPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/activities" 
+            element={
+              <ProtectedRoute>
+                <ActivitiesPage />
               </ProtectedRoute>
             } 
           />
