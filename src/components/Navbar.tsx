@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [hidden, setHidden] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,7 +17,18 @@ const Navbar = () => {
       setUser(currentUser);
     });
 
-    return () => unsubscribe();
+    // Escuta o evento personalizado de mudança do modo foco
+    const handleFocusModeChange = (event: CustomEvent) => {
+      setHidden(event.detail.focusMode);
+    };
+
+    // Adiciona o listener para o evento
+    document.addEventListener('focusModeChange', handleFocusModeChange as EventListener);
+
+    return () => {
+      unsubscribe();
+      document.removeEventListener('focusModeChange', handleFocusModeChange as EventListener);
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -28,6 +40,11 @@ const Navbar = () => {
       toast.error('Erro ao sair');
     }
   };
+
+  // Se está escondido, não renderiza nada
+  if (hidden) {
+    return null;
+  }
 
   return (
     <nav className="bg-white shadow-md py-2 fixed bottom-0 w-full md:top-0 md:bottom-auto z-50">

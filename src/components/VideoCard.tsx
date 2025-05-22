@@ -1,5 +1,5 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Heart, BookOpen, Share2, MessageSquare, Maximize, Minimize } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -33,6 +33,15 @@ const VideoCard = ({
   const [focusMode, setFocusMode] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Quando focusMode muda, disparamos um evento personalizado
+  useEffect(() => {
+    // Cria e dispara um evento personalizado para informar outros componentes sobre o modo foco
+    const event = new CustomEvent('focusModeChange', { 
+      detail: { focusMode } 
+    });
+    document.dispatchEvent(event);
+  }, [focusMode]);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -58,7 +67,7 @@ const VideoCard = ({
       <video
         ref={videoRef}
         src={videoUrl}
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className={`absolute inset-0 w-full h-full object-cover z-0 ${focusMode ? 'pb-0' : 'pb-0 md:pb-0'}`}
         playsInline
         loop
       />
