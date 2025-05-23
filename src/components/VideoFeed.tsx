@@ -42,7 +42,7 @@ const allVideos = [
     id: 4,
     videoUrl: "/videos/op_basicas.mp4",
     title: "Operações básicas com frações",
-    teacher: "Prof. Carlos Mendes",
+    teacher: "Prof. Juliana Oliveira",
     subject: "Matemática",
     likes: 289,
     comments: 37,

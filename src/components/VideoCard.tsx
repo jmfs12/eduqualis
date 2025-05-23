@@ -66,15 +66,16 @@ const VideoCard = ({
 
   return (
     <div className={`relative ${focusMode ? 'fixed inset-0 z-50 w-full h-full' : 'w-full h-full'} bg-black overflow-hidden`}>
-
       {/* Video */}
-      <video
-        ref={videoRef}
-        src={videoUrl}
-        className={`absolute inset-0 w-full h-full object-cover z-0 ${focusMode ? 'pb-0' : 'pb-0 md:pb-0'}`}
-        playsInline
-        loop
-      />
+      <div className={`flex justify-center items-center ${focusMode ? 'fixed inset-0 z-40 bg-black' : 'relative w-auto h-auto bg-black'} overflow-hidden`}>
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          className="w-auto h-auto max-w-full max-h-screen object-contain"
+          playsInline
+          loop
+        />
+      </div>
 
       {!isPlaying && (
         <button
@@ -94,25 +95,27 @@ const VideoCard = ({
         {/* Área clicável invisível */}
       </button>
      )}
+      {/* Focus mode toggle button (sempre visível) */}
+      <div className="fixed top-24 right-4 z-50">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                onClick={toggleFocus} 
+                variant="ghost" 
+                size="icon" 
+                className="bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
+              >
+                {focusMode ? <Eye size={20} /> : <EyeOff size={20} />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{focusMode ? 'Sair do modo foco' : 'Ativar modo foco'}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
 
-      {/* Focus mode toggle button */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button 
-              onClick={toggleFocus} 
-              variant="ghost" 
-              size="icon" 
-              className="absolute top-10 right-4 z-30 bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
-            >
-              {focusMode ? <Eye size={20} /> : <EyeOff size={20} />}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{focusMode ? 'Sair do modo foco' : 'Ativar modo foco'}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
 
       {/* Informações do vídeo */}
       {!focusMode && (
