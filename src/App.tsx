@@ -12,6 +12,7 @@ import DashboardPage from "./pages/DashboardPage";
 import TracksPage from "./pages/TracksPage";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import VideoFeedPage from "./pages/VideoFeedPage";
+import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route 
             path="/dashboard" 
             element={
