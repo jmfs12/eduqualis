@@ -15,7 +15,7 @@ const Dashboard = () => {
     completedTracks: 0,
     minutesWatched: 0,
     points: 0,
-    level: "Intermediário",
+    level: "Iniciante",
     currentStreak: 0,
     badges: [
       { id: 1, name: "Matemática Básica", completed: false },
@@ -153,9 +153,9 @@ const Dashboard = () => {
             <h3 className="font-medium mb-3">Seu progresso</h3>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-full bg-gray-200 rounded-full h-2.5">
-                <div className="bg-eduYellow-500 h-2.5 rounded-full w-2/5"></div>
+                <div className="bg-eduYellow-500 h-2.5 rounded-full w-0"></div>
               </div>
-              <span className="text-xs font-medium text-gray-500">40%</span>
+              <span className="text-xs font-medium text-gray-500">0%</span>
             </div>
             
             <div className="flex items-center justify-between text-sm mt-4">
