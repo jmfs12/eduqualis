@@ -38,26 +38,12 @@ const VideoCard = ({
 
   // Quando focusMode muda, disparamos um evento personalizado
   useEffect(() => {
-    const videoEl = videoRef.current;
-
-    // Dispara evento para outros componentes (como já estava fazendo)
+    // Dispara evento para outros componentes
     const event = new CustomEvent('focusModeChange', { 
       detail: { focusMode } 
     });
     document.dispatchEvent(event);
-
-    // Entra ou sai do fullscreen
-    if (focusMode && videoEl && videoEl.requestFullscreen) {
-      videoEl.requestFullscreen().catch((err) => {
-        console.error("Erro ao tentar entrar em tela cheia:", err);
-      });
-    } else if (!focusMode && document.fullscreenElement) {
-      document.exitFullscreen().catch((err) => {
-        console.error("Erro ao sair do modo tela cheia:", err);
-      });
-    }
   }, [focusMode]);
-
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -79,7 +65,7 @@ const VideoCard = ({
   };
 
   return (
-    <div className={`relative ${focusMode ? 'fixed inset-0 z-50 w-screen h-screen' : 'w-full h-full'} bg-black overflow-hidden`}>
+    <div className={`relative ${focusMode ? 'fixed inset-0 z-50 w-full h-full' : 'w-full h-full'} bg-black overflow-hidden`}>
 
       {/* Video */}
       <video
@@ -108,8 +94,6 @@ const VideoCard = ({
         {/* Área clicável invisível */}
       </button>
      )}
-
-
 
       {/* Focus mode toggle button */}
       <TooltipProvider>
