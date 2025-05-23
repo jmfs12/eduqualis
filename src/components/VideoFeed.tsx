@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import VideoCard from './VideoCard';
 import { ChevronUp, ChevronDown, Video } from 'lucide-react';
-import { AspectRatio } from './ui/aspect-ratio';
 
 // Mock data for videos
 const allVideos = [
@@ -120,56 +119,49 @@ const VideoFeed = ({ trackId }: VideoFeedProps) => {
   }
 
   return (
-    <div className="relative video-container bg-black rounded-lg overflow-hidden">
-      <div className="w-full h-full flex flex-col">
-        {/* Use AspectRatio to maintain proper video dimensions */}
-        <AspectRatio ratio={16/9} className="flex-1">
-          <div className="relative w-full h-full">
-            {/* Navigation buttons */}
-            {currentIndex > 0 && (
-              <button 
-                className="absolute top-1/4 left-1/2 transform -translate-x-1/2 z-50 bg-white/20 backdrop-blur-sm p-2 rounded-full"
-                onClick={goToPreviousVideo}
-              >
-                <ChevronUp size={24} className="text-white" />
-              </button>
-            )}
-            
-            {/* Current video */}
-            <div className="h-full w-full">
-              <VideoCard 
-                videoUrl={videos[currentIndex].videoUrl}
-                title={videos[currentIndex].title}
-                teacher={videos[currentIndex].teacher}
-                subject={videos[currentIndex].subject}
-                likes={videos[currentIndex].likes}
-                comments={videos[currentIndex].comments}
-                duration={videos[currentIndex].duration}
-                liked={liked}
-                setLiked={setLiked}
-              />
-            </div>
-            
-            {currentIndex < videos.length - 1 && (
-              <button 
-                className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 z-10 bg-white/20 backdrop-blur-sm p-2 rounded-full"
-                onClick={goToNextVideo}
-              >
-                <ChevronDown size={24} className="text-white" />
-              </button>
-            )}
-            
-            {/* Progress indicator */}
-            <div className="absolute top-4 left-0 right-0 px-4 flex justify-center gap-2">
-              {videos.map((_, idx) => (
-                <div 
-                  key={idx} 
-                  className={`h-1 rounded-full ${idx === currentIndex ? 'bg-white w-6' : 'bg-white/50 w-4'}`}
-                ></div>
-              ))}
-            </div>
-          </div>
-        </AspectRatio>
+    <div className="relative video-container">
+      {/* Navigation buttons */}
+      {currentIndex > 0 && (
+        <button 
+          className="absolute top-1/4 left-1/2 transform -translate-x-1/2 z-50 bg-white/20 backdrop-blur-sm p-2 rounded-full"
+          onClick={goToPreviousVideo}
+        >
+          <ChevronUp size={24} className="text-white" />
+        </button>
+      )}
+      
+      {/* Current video */}
+      <div className="h-full w-full">
+        <VideoCard 
+          videoUrl={videos[currentIndex].videoUrl}
+          title={videos[currentIndex].title}
+          teacher={videos[currentIndex].teacher}
+          subject={videos[currentIndex].subject}
+          likes={videos[currentIndex].likes}
+          comments={videos[currentIndex].comments}
+          duration={videos[currentIndex].duration}
+          liked={liked}
+          setLiked={setLiked}
+        />
+      </div>
+      
+      {currentIndex < videos.length - 1 && (
+        <button 
+          className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 z-10 bg-white/20 backdrop-blur-sm p-2 rounded-full"
+          onClick={goToNextVideo}
+        >
+          <ChevronDown size={24} className="text-white" />
+        </button>
+      )}
+      
+      {/* Progress indicator */}
+      <div className="absolute top-4 left-0 right-0 px-4 flex justify-center gap-2">
+        {videos.map((_, idx) => (
+          <div 
+            key={idx} 
+            className={`h-1 rounded-full ${idx === currentIndex ? 'bg-white w-6' : 'bg-white/50 w-4'}`}
+          ></div>
+        ))}
       </div>
     </div>
   );
