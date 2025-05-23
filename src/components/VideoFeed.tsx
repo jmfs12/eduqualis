@@ -1,10 +1,10 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import VideoCard from './VideoCard';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, Video } from 'lucide-react';
 
 // Mock data for videos
-const mockVideos = [
+const allVideos = [
   {
     id: 1,
     videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
@@ -13,7 +13,8 @@ const mockVideos = [
     subject: "Matemática",
     likes: 347,
     comments: 42,
-    duration: "2:30"
+    duration: "2:30",
+    trackId: "1"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ const mockVideos = [
     subject: "Biologia",
     likes: 289,
     comments: 37,
-    duration: "3:15"
+    duration: "3:15",
+    trackId: "2"
   },
   {
     id: 3,
@@ -33,16 +35,55 @@ const mockVideos = [
     subject: "História",
     likes: 421,
     comments: 56,
-    duration: "4:10"
+    duration: "4:10",
+    trackId: "3"
+  },
+  {
+    id: 4,
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    title: "Frações e Números Decimais",
+    teacher: "Prof. Ana Silva",
+    subject: "Matemática",
+    likes: 285,
+    comments: 31,
+    duration: "3:45",
+    trackId: "1"
+  },
+  {
+    id: 5,
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    title: "Leis de Newton Explicadas",
+    teacher: "Prof. Ricardo Lopes",
+    subject: "Física",
+    likes: 312,
+    comments: 42,
+    duration: "4:20",
+    trackId: "2"
   }
 ];
 
-const VideoFeed = () => {
+interface VideoFeedProps {
+  trackId?: string | null;
+}
+
+const VideoFeed = ({ trackId }: VideoFeedProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [videos, setVideos] = useState(allVideos);
+
+  useEffect(() => {
+    if (trackId) {
+      const filteredVideos = allVideos.filter(video => video.trackId === trackId);
+      setVideos(filteredVideos.length > 0 ? filteredVideos : allVideos);
+    } else {
+      setVideos(allVideos);
+    }
+    setCurrentIndex(0);
+    setLiked(false);
+  }, [trackId]);
 
   const goToNextVideo = () => {
-    if (currentIndex < mockVideos.length - 1) {
+    if (currentIndex < videos.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setLiked(false);
     }
@@ -55,6 +96,16 @@ const VideoFeed = () => {
       setLiked(false);
     }
   };
+
+  // If there are no videos available
+  if (videos.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-gray-500">
+        <Video size={64} className="mb-4 opacity-50" />
+        <p className="text-lg">Nenhum vídeo disponível para esta trilha</p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative video-container">
@@ -71,19 +122,19 @@ const VideoFeed = () => {
       {/* Current video */}
       <div className="h-full w-full">
         <VideoCard 
-          videoUrl={mockVideos[currentIndex].videoUrl}
-          title={mockVideos[currentIndex].title}
-          teacher={mockVideos[currentIndex].teacher}
-          subject={mockVideos[currentIndex].subject}
-          likes={mockVideos[currentIndex].likes}
-          comments={mockVideos[currentIndex].comments}
-          duration={mockVideos[currentIndex].duration}
+          videoUrl={videos[currentIndex].videoUrl}
+          title={videos[currentIndex].title}
+          teacher={videos[currentIndex].teacher}
+          subject={videos[currentIndex].subject}
+          likes={videos[currentIndex].likes}
+          comments={videos[currentIndex].comments}
+          duration={videos[currentIndex].duration}
           liked={liked}
           setLiked={setLiked}
         />
       </div>
       
-      {currentIndex < mockVideos.length - 1 && (
+      {currentIndex < videos.length - 1 && (
         <button 
           className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 z-10 bg-white/20 backdrop-blur-sm p-2 rounded-full"
           onClick={goToNextVideo}
@@ -94,7 +145,7 @@ const VideoFeed = () => {
       
       {/* Progress indicator */}
       <div className="absolute top-4 left-0 right-0 px-4 flex justify-center gap-2">
-        {mockVideos.map((_, idx) => (
+        {videos.map((_, idx) => (
           <div 
             key={idx} 
             className={`h-1 rounded-full ${idx === currentIndex ? 'bg-white w-6' : 'bg-white/50 w-4'}`}

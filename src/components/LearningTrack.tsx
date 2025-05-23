@@ -59,8 +59,6 @@ const LearningTrack = () => {
     setExpandedChapterId(expandedChapterId === chapterId ? null : chapterId);
   };
 
-  const progressPercentage = Math.round((track.completedVideos / track.totalVideos) * 100);
-  
   const goToActivities = (chapterId?: number) => {
     if (chapterId) {
       navigate(`/activities?track=${track.id}&chapter=${chapterId}`);
@@ -69,6 +67,12 @@ const LearningTrack = () => {
     }
   };
 
+  const goToVideo = (videoId: number) => {
+    navigate(`/videos?trackId=${track.id}`);
+  };
+
+  const progressPercentage = Math.round((track.completedVideos / track.totalVideos) * 100);
+  
   return (
     <div className="bg-white rounded-xl shadow-md p-6 max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -127,6 +131,7 @@ const LearningTrack = () => {
                   <div 
                     key={video.id} 
                     className="p-3 flex items-center justify-between hover:bg-gray-100 cursor-pointer"
+                    onClick={() => goToVideo(video.id)}
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-eduBlue-500 flex items-center justify-center">
@@ -204,7 +209,10 @@ const LearningTrack = () => {
       )}
 
       <div className="mt-6 text-center">
-        <button className="bg-eduBlue-600 text-white px-4 py-2 rounded-md hover:bg-eduBlue-700 transition-colors">
+        <button 
+          className="bg-eduBlue-600 text-white px-4 py-2 rounded-md hover:bg-eduBlue-700 transition-colors"
+          onClick={() => navigate(`/videos?trackId=${track.id}`)}
+        >
           Continuar Aprendendo
         </button>
       </div>

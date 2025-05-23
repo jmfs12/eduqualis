@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import LearningTrack from '../components/LearningTrack';
 import AnaAssistant from '../components/AnaAssistant';
@@ -43,9 +44,14 @@ const availableTracks = [
 const TracksPage = () => {
   const [selectedTrack, setSelectedTrack] = useState<number | null>(null);
   const [filter, setFilter] = useState("Todos");
+  const navigate = useNavigate();
 
   const handleTrackSelect = (trackId: number) => {
     setSelectedTrack(trackId === selectedTrack ? null : trackId);
+  };
+
+  const goToVideoFeed = (trackId: number) => {
+    navigate(`/videos?trackId=${trackId}`);
   };
 
   const filteredTracks = filter === "Todos" 
@@ -115,7 +121,20 @@ const TracksPage = () => {
                     <span className="text-xs text-gray-500 block">{track.totalVideos} vídeos</span>
                     <span className="text-xs text-gray-500 block">{track.totalActivities} atividades</span>
                   </div>
-                  <button className="text-eduBlue-600 text-sm font-medium">Ver detalhes</button>
+                  <div className="flex gap-2">
+                    <button 
+                      className="text-eduBlue-600 text-sm font-medium"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToVideoFeed(track.id);
+                      }}
+                    >
+                      Ver vídeos
+                    </button>
+                    <button className="text-eduBlue-600 text-sm font-medium">
+                      Ver detalhes
+                    </button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

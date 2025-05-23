@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +11,7 @@ import Index from "./pages/Index";
 import DashboardPage from "./pages/DashboardPage";
 import TracksPage from "./pages/TracksPage";
 import ActivitiesPage from "./pages/ActivitiesPage";
+import VideoFeedPage from "./pages/VideoFeedPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -72,6 +74,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <ActivitiesPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/videos" 
+            element={
+              <ProtectedRoute>
+                <VideoFeedPage />
               </ProtectedRoute>
             } 
           />
