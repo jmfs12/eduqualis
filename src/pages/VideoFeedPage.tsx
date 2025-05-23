@@ -56,7 +56,7 @@ const VideoFeedPage = () => {
           )}
         </div>
         
-        <div className="w-full max-w-3xl mx-auto h-auto">
+        <div className="w-full max-w-md mx-auto h-[80vh]">
           <VideoFeed trackId={trackId} />
         </div>
       </div>
