@@ -8,36 +8,42 @@ const tracks = [
   {
     id: 1,
     title: "Matemática Básica",
-    totalVideos: 12,
-    completedVideos: 4,
+    totalVideos: 6,
+    completedVideos: 0,
     level: "Iniciante",
     chapters: [
       {
         id: 101,
         title: "Números e Operações",
-        completed: true,
+        completed: false,
         videos: [
-          { id: 1001, title: "Adição e Subtração", completed: true, duration: "3:20" },
-          { id: 1002, title: "Multiplicação", completed: true, duration: "4:15" },
-          { id: 1003, title: "Divisão", completed: true, duration: "5:10" },
+          { id: 1001, title: "Adição com Vírgula", completed: false, duration: "00:46" },
         ]
       },
       {
         id: 102,
-        title: "Frações",
-        completed: true,
+        title: "Divisão",
+        completed: false,
         videos: [
-          { id: 1004, title: "Conceito de Frações", completed: true, duration: "2:30" },
-          { id: 1005, title: "Frações Equivalentes", completed: false, duration: "2:14" },
+          { id: 1004, title: "Divisão de números decimais", completed: false, duration: "01:08" },
+          { id: 1005, title: "Divisao de potência de mesma base", completed: false, duration: "00:44" },
         ]
       },
       {
         id: 103,
+        title: "Frações",
+        completed: false,
+        videos: [
+          { id: 1004, title: "Operações básicas com frações", completed: false, duration: "00:56" },
+        ]
+      },
+      {
+        id: 104,
         title: "Equações",
         completed: false,
         videos: [
-          { id: 1006, title: "Equações de Primeiro Grau", completed: false, duration: "6:10" },
-          { id: 1007, title: "Equações de Segundo Grau", completed: false, duration: "7:20" },
+          { id: 1006, title: "Equações de Segundo Grau 1", completed: false, duration: "01:32" },
+          { id: 1007, title: "Equações de Segundo Grau 2", completed: false, duration: "01:20" },
         ],
         activities: [
           { id: "1", title: "Equações do 2º Grau", questions: 2 }

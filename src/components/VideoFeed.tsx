@@ -7,41 +7,19 @@ import { ChevronUp, ChevronDown, Video } from 'lucide-react';
 const allVideos = [
   {
     id: 1,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    title: "Equações do 2º Grau Simplificadas",
-    teacher: "Prof. Ana Silva",
+    videoUrl: "/videos/adicao_virgula.mp4",
+    title: "Adição com vírgula",
+    teacher: "Prof. Sandro Curió",
     subject: "Matemática",
     likes: 347,
     comments: 42,
-    duration: "2:30",
+    duration: "00:46",
     trackId: "1"
   },
   {
     id: 2,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    title: "Fotossíntese Explicada em 3 min",
-    teacher: "Prof. Carlos Mendes",
-    subject: "Biologia",
-    likes: 289,
-    comments: 37,
-    duration: "3:15",
-    trackId: "2"
-  },
-  {
-    id: 3,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    title: "Revolução Francesa: Causas Principais",
-    teacher: "Profa. Mariana Costa",
-    subject: "História",
-    likes: 421,
-    comments: 56,
-    duration: "4:10",
-    trackId: "3"
-  },
-  {
-    id: 4,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    title: "Frações e Números Decimais",
+    videoUrl: "/videos/divisao_numeros_decimais.mp4",
+    title: "Divisão de números decimais",
     teacher: "Prof. Ana Silva",
     subject: "Matemática",
     likes: 285,
@@ -50,15 +28,48 @@ const allVideos = [
     trackId: "1"
   },
   {
+    id: 3,
+    videoUrl: "/videos/divisao_potencia_mesma_base.mp4",
+    title: "Divisão de potências com a mesma base",
+    teacher: "Profa. Mariana Costa",
+    subject: "Matemática",
+    likes: 421,
+    comments: 56,
+    duration: "00:44",
+    trackId: "1"
+  },
+  {
+    id: 4,
+    videoUrl: "/videos/op_basicas.mp4",
+    title: "Operações básicas com frações",
+    teacher: "Prof. Carlos Mendes",
+    subject: "Matemática",
+    likes: 289,
+    comments: 37,
+    duration: "00:56",
+    trackId: "1"
+  },
+  {
     id: 5,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    title: "Leis de Newton Explicadas",
+    videoUrl: "/videos/eq_2grau.mp4",
+    title: "Equações do 2º grau 1",
     teacher: "Prof. Ricardo Lopes",
-    subject: "Física",
+    subject: "Matemática",
     likes: 312,
     comments: 42,
-    duration: "4:20",
-    trackId: "2"
+    duration: "01:32",
+    trackId: "1"
+  },
+  {
+    id: 6,
+    videoUrl: "/videos/eq_2grau2.mp4",
+    title: "Equações do 2º grau 2",
+    teacher: "Prof. Ricardo Lopes",
+    subject: "Matemática",
+    likes: 217,
+    comments: 85,
+    duration: "01:20",
+    trackId: "1"
   }
 ];
 
