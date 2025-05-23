@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, BookOpen, User, LogOut, Book } from 'lucide-react';
@@ -77,6 +78,15 @@ const Navbar = () => {
             <User size={24} />
             <span className="text-xs mt-1">Perfil</span>
           </Link>
+          {user && (
+            <button 
+              onClick={handleLogout} 
+              className="flex flex-col items-center p-2 text-gray-500 hover:text-red-500"
+            >
+              <LogOut size={24} />
+              <span className="text-xs mt-1">Sair</span>
+            </button>
+          )}
         </div>
 
         {/* Desktop Navigation */}
