@@ -160,7 +160,7 @@ const ActivitiesPage = () => {
     <div className="min-h-screen bg-gray-50">
       {!focusMode && <Navbar />}
       
-      <div className={`${focusMode ? 'pt-0' : 'pt-4 md:pt-20'} pb-20 px-4 md:px-6 max-w-5xl mx-auto`}>
+      <div className={`${focusMode ? 'pt-0' : 'pt-4 md:pt-20'} pb-20 px-4 md:px-6 max-w-0xl mx-auto my-8`}>
         <h1 className="text-2xl md:text-3xl font-bold text-eduBlue-600 mb-6">Atividades de Aprendizado</h1>
         
         {(trackFilter || chapterFilter) && (

@@ -39,16 +39,20 @@ const mockVideos = [
 
 const VideoFeed = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [liked, setLiked] = useState(false);
 
   const goToNextVideo = () => {
     if (currentIndex < mockVideos.length - 1) {
       setCurrentIndex(currentIndex + 1);
+      setLiked(false);
     }
   };
 
   const goToPreviousVideo = () => {
+    console.log("Previous video");
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
+      setLiked(false);
     }
   };
 
@@ -57,7 +61,7 @@ const VideoFeed = () => {
       {/* Navigation buttons */}
       {currentIndex > 0 && (
         <button 
-          className="absolute top-1/4 left-1/2 transform -translate-x-1/2 z-10 bg-white/20 backdrop-blur-sm p-2 rounded-full"
+          className="absolute top-1/4 left-1/2 transform -translate-x-1/2 z-50 bg-white/20 backdrop-blur-sm p-2 rounded-full"
           onClick={goToPreviousVideo}
         >
           <ChevronUp size={24} className="text-white" />
@@ -74,6 +78,8 @@ const VideoFeed = () => {
           likes={mockVideos[currentIndex].likes}
           comments={mockVideos[currentIndex].comments}
           duration={mockVideos[currentIndex].duration}
+          liked={liked}
+          setLiked={setLiked}
         />
       </div>
       

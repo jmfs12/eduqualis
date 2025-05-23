@@ -27,8 +27,8 @@ const tracks = [
         title: "Frações",
         completed: true,
         videos: [
-          { id: 1004, title: "Conceito de Frações", completed: true, duration: "4:30" },
-          { id: 1005, title: "Frações Equivalentes", completed: false, duration: "3:45" },
+          { id: 1004, title: "Conceito de Frações", completed: true, duration: "2:30" },
+          { id: 1005, title: "Frações Equivalentes", completed: false, duration: "2:14" },
         ]
       },
       {
@@ -104,12 +104,12 @@ const LearningTrack = () => {
         {track.chapters.map(chapter => (
           <div key={chapter.id} className="border rounded-lg overflow-hidden">
             <button 
-              className={`w-full p-4 flex items-center justify-between ${chapter.completed ? 'bg-eduGreen-50' : 'bg-white'}`}
+              className={`w-full p-4 flex items-center justify-between ${chapter.completed ? 'bg-eduYellow-50' : 'bg-white'}`}
               onClick={() => toggleChapter(chapter.id)}
             >
               <div className="flex items-center gap-3">
                 {chapter.completed ? (
-                  <CheckCircle size={20} className="text-eduGreen-500" />
+                  <CheckCircle size={20} className="text-eduYellow-500" />
                 ) : (
                   <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
                 )}
@@ -138,7 +138,7 @@ const LearningTrack = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-500">{video.duration}</span>
-                      {video.completed && <CheckCircle size={16} className="text-eduGreen-500" />}
+                      {video.completed && <CheckCircle size={16} className="text-eduYellow-500" />}
                     </div>
                   </div>
                 ))}
@@ -153,7 +153,7 @@ const LearningTrack = () => {
                         onClick={() => goToActivities(chapter.id)}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-eduGreen-500 flex items-center justify-center">
+                          <div className="w-8 h-8 rounded-full bg-eduYellow-500 flex items-center justify-center">
                             <ListCheck size={16} className="text-white" />
                           </div>
                           <span className="text-gray-800">Atividade: {activity.title}</span>

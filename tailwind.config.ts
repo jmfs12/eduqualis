@@ -81,6 +81,18 @@ export default {
 					800: '#065f46',
 					900: '#064e3b',
 				},
+				eduYellow: {
+					50:  '#fffdea',
+					100: '#fff7c2',
+					200: '#ffef88',
+					300: '#ffe64d',
+					400: '#ffdd1a',
+					500: '#e6c400',  // tom principal
+					600: '#b39800',
+					700: '#806d00',
+					800: '#4d4100',
+					900: '#1a1600',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

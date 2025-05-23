@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Heart, BookOpen, Share2, MessageSquare, EyeOff, Eye, Play, Pause } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -17,6 +17,8 @@ interface VideoCardProps {
   likes: number;
   comments: number;
   duration: string;
+  liked: boolean;
+  setLiked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const VideoCard = ({ 
@@ -26,10 +28,11 @@ const VideoCard = ({
   subject, 
   likes, 
   comments,
-  duration 
+  duration,
+  liked,
+  setLiked
 }: VideoCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [liked, setLiked] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -116,7 +119,7 @@ const VideoCard = ({
               onClick={toggleFocus} 
               variant="ghost" 
               size="icon" 
-              className="absolute top-4 right-4 z-30 bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
+              className="absolute top-10 right-4 z-30 bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white"
             >
               {focusMode ? <Eye size={20} /> : <EyeOff size={20} />}
             </Button>

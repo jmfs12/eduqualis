@@ -1,10 +1,11 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home, BookOpen, User, LogOut, Book } from 'lucide-react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { toast } from 'sonner';
+import logoUrl from '../assets/logo.svg';
+import nameUrl from '../assets/name.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +23,22 @@ const Navbar = () => {
       setHidden(customEvent.detail.focusMode);
     };
 
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 15) {
+        setHidden(true); // Rolar para baixo → esconder
+      } else {
+        setHidden(false); // Rolar para cima → mostrar
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
     document.addEventListener('focusModeChange', handleFocusModeChange);
 
     return () => {
       unsubscribe();
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('focusModeChange', handleFocusModeChange);
     };
   }, []);
@@ -70,7 +83,10 @@ const Navbar = () => {
         <div className="hidden md:flex justify-between items-center px-0 py-2">
           {/* ESQUERDA */}
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-xl font-bold text-eduBlue-600">EduQualis</Link>
+            <Link to="/" className="flex items-center gap-2 text-xl font-bold text-eduBlue-600">
+              <img src={logoUrl} alt="Logo EduQualis" className="w-[60px] h-[60px]" />
+              <img src={nameUrl} alt="Nome EduQualis" className="w-13 h-10" />
+            </Link>
             <div className="flex items-center">
               <Link to="/" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Feed</Link>
               <Link to="/tracks" className="text-gray-700 hover:text-eduBlue-600 px-3 py-2 rounded-md text-sm font-medium">Trilhas</Link>

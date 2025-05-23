@@ -4,9 +4,9 @@ import { auth, googleProvider } from '../lib/firebase';
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  updateProfile
 } from 'firebase/auth';
-import axios from 'axios';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,20 +15,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const sendData = async()=>{
-    try{
-      const response = await axios.post('http://localhost:8080/api/auth/register', {
-        username: name,
-        email: auth.currentUser?.email,
-        firebaseUID: auth.currentUser?.uid,
-      });
-
-      console.log('Dados enviados com sucesso:', response.data);
-    } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-    }
-  };
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
@@ -48,8 +34,16 @@ const Login = () => {
     try {
       if (isRegistering) {
         await createUserWithEmailAndPassword(auth, email, password);
-        await sendData();
         toast.success("Conta criada com sucesso!");
+
+        updateProfile(auth.currentUser, {
+          displayName: name,
+        }).then(() => {
+          console.log("Perfil atualizado com sucesso!");
+        }).catch((error) => {
+          console.error("Erro ao atualizar perfil:", error);
+        });
+      
         
       } else {
         await signInWithEmailAndPassword(auth, email, password);
