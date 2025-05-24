@@ -38,6 +38,7 @@ npm install
 
 # Inicie o projeto
 npm run dev
+```
 
 Contribuições são bem-vindas!
 Sinta-se à vontade para abrir issues ou pull requests com melhorias, correções ou sugestões.
