@@ -44,5 +44,5 @@ Contribuições são bem-vindas!
 Sinta-se à vontade para abrir issues ou pull requests com melhorias, correções ou sugestões.
 
 ## 📫 Contato
-Desenvolvedor: @jmfs12  
-E-mail: joanomiguel@gmail.com
+**Desenvolvedor**: @jmfs12  
+**E-mail**: joanomiguel@gmail.com
