@@ -1,28 +1,41 @@
 # 🌱 EduQualis
 
-**EduQualis** é uma plataforma educacional inovadora que combina o formato de uma rede social com trilhas de microlearning, focada em oferecer conteúdos curtos, acessíveis e personalizados para jovens com dificuldades de atenção, como o TDAH.
+**EduQualis** é um projeto original idealizado e desenvolvido por **João Miguel**, com o objetivo de transformar a forma como jovens com dificuldades de atenção — como o TDAH — acessam e se relacionam com o aprendizado.
+
+A plataforma combina o dinamismo das redes sociais com a estrutura de trilhas de microlearning, proporcionando uma experiência educativa mais inclusiva, acessível e personalizada. A proposta nasceu no contexto acadêmico, mas segue em desenvolvimento como uma solução real com potencial de impacto social e escalabilidade.
+
+---
 
 ## 🚀 Objetivo
 
-Levar educação de qualidade para todos, com foco especial em inclusão cognitiva e acessibilidade, alinhado ao ODS 4 da ONU – Educação de Qualidade.
+Levar educação de qualidade para todos, com foco especial em **inclusão cognitiva, acessibilidade digital** e apoio ao aprendizado autônomo.  
+A EduQualis está alinhada ao **ODS 4 da ONU – Educação de Qualidade**.
+
+---
 
 ## 🧠 Principais Funcionalidades
 
-- 📱 Interface no estilo feed (semelhante ao TikTok), com vídeos educativos curtos
-- 🧩 Trilhas de aprendizado organizadas por tema e com continuidade, mesmo com professores diferentes
-- 🤖 Assistente virtual com IA (Ana) para dúvidas, sugestões de foco e organização de estudos
-- 🧠 Design acessível para estudantes com TDAH e baixa concentração
-- 🎯 Progresso do usuário e recomendações personalizadas
+- 📱 Interface em formato de feed (semelhante ao TikTok), com vídeos educativos curtos  
+- 🧩 Trilhas temáticas com continuidade entre vídeos, mesmo com professores diferentes  
+- 🤖 Assistente virtual com IA (Ana) para apoio no foco, dúvidas e rotina de estudos  
+- 🧠 Design acessível e cognitivo, ideal para estudantes com TDAH  
+- 🎯 Dashboard com progresso individual e recomendações personalizadas  
 
-## 💻 Tecnologias utilizadas
+---
 
-- **Frontend:** Vite, Typescript, React, shadcn-ui, Tailwind CSS.
-- **Hospedagem:** [Vercel](https://vercel.com)
+## 💻 Tecnologias Utilizadas
+
+- **Frontend:** Vite, TypeScript, React, shadcn/ui, Tailwind CSS  
+- **Autenticação:** Firebase Auth (Login com Google)  
+- **Hospedagem:** [Vercel](https://vercel.com)  
+
+---
 
 ## 🔗 Link da Plataforma
 
-Acesse o MVP da EduQualis:  
-🌐 [https://eduqualis.vercel.app](https://eduqualis.vercel.app)
+🌐 [Acesse o MVP da EduQualis](https://eduqualis.vercel.app)
+
+---
 
 ## 🛠️ Como rodar localmente
 
@@ -30,19 +43,27 @@ Acesse o MVP da EduQualis:
 # Clone o repositório
 git clone https://github.com/jmfs12/eduqualis.git
 
-# Acesse o diretório do projeto
+# Acesse o diretório
 cd eduqualis
 
-# Instale as dependências (caso use npm ou yarn)
+# Instale as dependências
 npm install
 
-# Inicie o projeto
+# Inicie a aplicação
 npm run dev
 ```
 
-Contribuições são bem-vindas!  
-Sinta-se à vontade para abrir issues ou pull requests com melhorias, correções ou sugestões.
+## 🤝 Contribuições
+Este projeto é de autoria individual e faz parte de uma iniciativa acadêmica com intenção de evolução para produto real.  
+Sugestões, colaborações éticas e feedbacks são bem-vindos.  
+Caso deseje contribuir, abra uma issue ou pull request com sua proposta de melhoria.
 
 ## 📫 Contato
-**Desenvolvedor**: @jmfs12  
-**E-mail**: joanomiguel@gmail.com
+Autor: João Miguel  
+GitHub: @jmfs12  
+E-mail: joanomiguel@gmail.com
+
+© João Miguel, 2024. Todos os direitos reservados.
+Este projeto está protegido por leis de direito autoral.
+Uso, reprodução ou distribuição não autorizada sem consentimento prévio são proibidos.
+
